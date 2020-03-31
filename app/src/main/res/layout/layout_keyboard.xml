@@ -141,7 +141,7 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/btn_backspace"
+            android:id="@+id/btnDot"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="2dp"

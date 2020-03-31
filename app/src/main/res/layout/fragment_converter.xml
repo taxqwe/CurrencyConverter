@@ -85,6 +85,7 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/btnAc"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="15dp"
@@ -99,6 +100,7 @@
                 android:textSize="20sp" />
 
             <ImageButton
+                android:id="@+id/btnBack"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="15dp"
