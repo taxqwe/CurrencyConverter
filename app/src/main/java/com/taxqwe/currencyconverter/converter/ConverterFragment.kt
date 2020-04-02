@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.taxqwe.currencyconverter.R
+import kotlinx.android.synthetic.main.fragment_converter.*
 import kotlinx.android.synthetic.main.fragment_converter.view.*
+import kotlinx.android.synthetic.main.layout_currency_row.view.*
 import kotlinx.android.synthetic.main.layout_keyboard.view.*
 
 class ConverterFragment : Fragment(R.layout.fragment_converter) {
@@ -36,5 +38,8 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
         view.btnAc.setOnClickListener { Log.d("btn", "AC") }
         view.btnBack.setOnClickListener { Log.d("btn", "back") }
         view.btnDot.setOnClickListener { Log.d("btn", "dot") }
+
+        view.currencyRow_1.clickable_area.setOnClickListener { Log.d("∆", "benis1") }
+        view.currencyRow_2.clickable_area.setOnClickListener { Log.d("∆", "benis2") }
     }
 }

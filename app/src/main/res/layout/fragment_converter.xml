@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,12 +27,16 @@
                 android:weightSum="2"
                 android:layout_marginHorizontal="20dp">
 
-                <include layout="@layout/layout_currency_row"
+                <include
+                    android:id="@+id/currencyRow_1"
+                    layout="@layout/layout_currency_row"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
 
-                <include layout="@layout/layout_currency_row"
+                <include
+                    android:id="@+id/currencyRow_2"
+                    layout="@layout/layout_currency_row"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
