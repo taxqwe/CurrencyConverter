@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.taxqwe.currencyconverter.R
+import com.taxqwe.currencyconverter.currencySelection.CurrencySelectionDialog
 import kotlinx.android.synthetic.main.fragment_converter.*
 import kotlinx.android.synthetic.main.fragment_converter.view.*
 import kotlinx.android.synthetic.main.layout_currency_row.view.*
@@ -39,7 +40,7 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
         view.btnBack.setOnClickListener { Log.d("btn", "back") }
         view.btnDot.setOnClickListener { Log.d("btn", "dot") }
 
-        view.currencyRow_1.clickable_area.setOnClickListener { Log.d("∆", "benis1") }
-        view.currencyRow_2.clickable_area.setOnClickListener { Log.d("∆", "benis2") }
+        view.currencyRow_1.clickable_area.setOnClickListener { CurrencySelectionDialog().show(requireFragmentManager(), "benis") }
+        view.currencyRow_2.clickable_area.setOnClickListener { CurrencySelectionDialog().show(requireFragmentManager(), "benis") }
     }
 }
