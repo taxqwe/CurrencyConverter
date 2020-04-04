@@ -7,6 +7,7 @@ import com.taxqwe.convertercore.db.CurrencyDB
 import com.taxqwe.convertercore.dto.LatestRate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.math.BigDecimal
 
 class CurrencyRepository(
     private val api: CurrencyApi,
@@ -18,11 +19,12 @@ class CurrencyRepository(
         api.updateCurrencyList("USD").subscribeOn(Schedulers.io())
             .subscribe({ latestRate: LatestRate ->
                 val currencyCodes = mutableListOf<AvailableCurrenciesEntity>()
-                latestRate.rates.forEach { (currency, _) ->
+                latestRate.rates.forEach { (currency, value) ->
                     currencyCodes.add(
                         AvailableCurrenciesEntity(
-                            id = currency.numericCode,
-                            currencyCode = currency.currencyCode
+                            currency.numericCode,
+                            currency.currencyCode,
+                            value.toBigDecimalOrNull() ?: BigDecimal.ZERO
                         )
                     )
                 }
