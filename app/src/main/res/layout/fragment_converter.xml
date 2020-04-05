@@ -53,7 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:gravity="center_horizontal"
-            android:text="Последнее обновление курса валют: %1$s"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:text="Курсы валюты, возможно, устарели"
             app:layout_constraintBottom_toTopOf="@+id/separator" />
 
         <View
@@ -101,7 +103,7 @@
                 android:background="@drawable/round_button_enabled_state"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="AC"
-                android:textColor="#ff7029"
+                android:textColor="@color/colorAccentOrange"
                 android:textSize="20sp" />
 
             <ImageButton
