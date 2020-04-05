@@ -11,6 +11,9 @@ interface CurrencyDao {
     @Query("SELECT currencyCode FROM AvailableCurrencies")
     fun getCurrencies(): Observable<List<String>>
 
+    @Query("SELECT courseRelateOn1Usd FROM AvailableCurrencies WHERE currencyCode = :currencyCode")
+    fun getUsdPerConventionalUnit(currencyCode: String): Observable<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE) // TODO temporary
     fun insertCurrencies(list: List<AvailableCurrenciesEntity>)
 }

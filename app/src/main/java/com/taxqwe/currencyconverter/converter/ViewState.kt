@@ -25,10 +25,28 @@ const val USER_ACTION_CODE_CURRENCY_CHANGED_ROW_2 = 15
 
 sealed class UserAction(val code: Int) {
 
-    class BtnClick(code: Int): UserAction(code)
+    class BtnClick(code: Int): UserAction(code) {
+        companion object {
+            fun codeToSymbol(code: Int): String {
+                return when (code) {
+                    USER_ACTION_CODE_BTN_0 -> "0"
+                    USER_ACTION_CODE_BTN_1 -> "1"
+                    USER_ACTION_CODE_BTN_2 -> "2"
+                    USER_ACTION_CODE_BTN_3 -> "3"
+                    USER_ACTION_CODE_BTN_4 -> "4"
+                    USER_ACTION_CODE_BTN_5 -> "5"
+                    USER_ACTION_CODE_BTN_6 -> "6"
+                    USER_ACTION_CODE_BTN_7 -> "7"
+                    USER_ACTION_CODE_BTN_8 -> "8"
+                    USER_ACTION_CODE_BTN_9 -> "9"
+                    else -> ""
+                }
+            }
+        }
+    }
 
     class FocusChanged(code: Int): UserAction(code)
 
-    class CurrencyChanged(code: Int, currency: String): UserAction(code)
+    class CurrencyChanged(code: Int, val currency: String): UserAction(code)
 
 }

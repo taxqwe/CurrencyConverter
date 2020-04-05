@@ -25,7 +25,7 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
     @Inject
     lateinit var selectedCurrenciesRepo: SelectedCurrenciesRepo
 
-    val composite = CompositeDisposable()
+    private val composite = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,7 +114,12 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
             )
         }
 
-        view.btnBack.setOnClickListener { UserAction.BtnClick(USER_ACTION_CODE_BTN_BACK) }
+        view.btnBack.setOnClickListener {
+            presenter.sendAction(
+                UserAction
+                    .BtnClick(USER_ACTION_CODE_BTN_BACK)
+            )
+        }
 
         view.btnDot.setOnClickListener {
             Toast.makeText(
@@ -156,9 +161,17 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
         super.onViewCreated(view, savedInstanceState)
         presenter.onViewCreated(this)
         composite.addAll(selectedCurrenciesRepo.getFirstCurrencyObservable()
-            .subscribe { currencyRow_1.currency.text = it },
+            .subscribe {
+                presenter.sendAction(UserAction.CurrencyChanged(14, it))
+                presenter.sendAction(UserAction.BtnClick(USER_ACTION_CODE_BTN_AC))
+                currencyRow_1.currency.text = it
+            },
             selectedCurrenciesRepo.getSecondCurrencyObservable()
-                .subscribe { currencyRow_2.currency.text = it })
+                .subscribe {
+                    presenter.sendAction(UserAction.CurrencyChanged(15, it))
+                    presenter.sendAction(UserAction.BtnClick(USER_ACTION_CODE_BTN_AC))
+                    currencyRow_2.currency.text = it
+                })
     }
 
     override fun applyViewState(viewState: ViewState) {
@@ -183,6 +196,11 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
 
         currencyRow_1.value.setTextColor(textColor1)
         currencyRow_2.value.setTextColor(textColor2)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        composite.dispose()
     }
 }
 
