@@ -11,6 +11,8 @@ class ConverterApp : Application() {
 
     lateinit var applicationComponent: ApplicationComponent
 
+    lateinit var converterCore: ConverterCore
+
     companion object{
         lateinit var instance: ConverterApp
     }
@@ -22,8 +24,8 @@ class ConverterApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val cc = ConverterCore().initialize(this)
-        dataBase = cc.db
+        converterCore = ConverterCore().initialize(this)
+        dataBase = converterCore.db
         applicationComponent = DaggerApplicationComponent.builder().build()
     }
 }
