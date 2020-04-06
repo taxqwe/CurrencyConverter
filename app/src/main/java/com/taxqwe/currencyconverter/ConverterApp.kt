@@ -24,7 +24,7 @@ class ConverterApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        converterCore = ConverterCore().initialize(this)
+        converterCore = ConverterCore(false).initialize(this)
         dataBase = converterCore.db
         applicationComponent = DaggerApplicationComponent.builder().build()
     }
