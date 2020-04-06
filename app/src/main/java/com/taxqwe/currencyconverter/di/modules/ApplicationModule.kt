@@ -1,5 +1,6 @@
 package com.taxqwe.currencyconverter.di.modules
 
+import com.taxqwe.convertercore.CurrencyModel
 import com.taxqwe.convertercore.db.CurrencyDB
 import com.taxqwe.currencyconverter.ConverterApp
 import com.taxqwe.currencyconverter.converter.ConverterModel
@@ -29,5 +30,9 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideCurrenciesStateRepo(): SelectedCurrenciesRepo = SelectedCurrenciesRepo()
+
+    @Provides
+    @Singleton
+    fun provideCurrencyRepo(): CurrencyModel = ConverterApp.instance.converterCore.currencyRepository
 
 }

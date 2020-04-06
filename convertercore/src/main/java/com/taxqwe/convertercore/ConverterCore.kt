@@ -2,14 +2,12 @@ package com.taxqwe.convertercore
 
 import android.app.Application
 import androidx.room.Room
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.taxqwe.convertercore.db.CurrencyDB
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-class ConverterCore {
+class ConverterCore(private val useCacheEveryRequest: Boolean) {
 
     lateinit var retrofit: Retrofit
 
@@ -30,7 +28,7 @@ class ConverterCore {
 
 //        val mapper = ObjectMapper().registerModule(KotlinModule())
 
-        currencyRepository = CurrencyRepository(retrofit.create(CurrencyApi::class.java), db)
+        currencyRepository = CurrencyRepository(retrofit.create(CurrencyApi::class.java), db, useCacheEveryRequest)
         currencyRepository.loadAvailableCurrenciesAndSave()
 
         return this
