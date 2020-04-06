@@ -5,7 +5,7 @@
 
 ## Используемые библиотеки
 * dagger2
-* rxJava
+* rxJava2
 * retrofit
 * room
 * и еже с ними
