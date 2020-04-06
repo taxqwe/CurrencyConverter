@@ -7,10 +7,12 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/clickable_area"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         >
         <TextView
+            android:id="@+id/currency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="RUB"
@@ -33,16 +35,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="999,999,999,999,999"
             android:textColor="#000000"
-            android:textSize="25sp"/>
+            android:textSize="25sp"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Российский рубль"/>
+            android:text="Российский рубль"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
 
     </LinearLayout>
