@@ -3,6 +3,9 @@ package com.taxqwe.currencyconverter.converter
 import android.annotation.SuppressLint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
+
 
 const val MAX_SYMBOLS_LESS_THAN = 16
 
@@ -12,6 +15,7 @@ class ConverterPresenter(private val model: ConverterModel) {
 
     lateinit var converterView: ConverterView
 
+    val convertRequestSubjeect = PublishSubject.create<ConverRequestData>()
 
     fun sendAction(action: UserAction) {
         when (action) {
@@ -141,7 +145,35 @@ class ConverterPresenter(private val model: ConverterModel) {
         val baseCurrency1 = "USD"
         val baseCurrency2 = "RUB"
         val baseAmount = "0"
+        subscribeConverterRequest()
         convert(baseCurrency1, baseCurrency2, baseAmount)
+        applyViewState(ViewState("USD" to "0", "RUB" to "0", true, true))
+    }
+
+    @SuppressLint("CheckResult")
+    private fun subscribeConverterRequest() {
+        lateinit var cachedRequest: ConverRequestData // пока костыль для рефактора
+
+        convertRequestSubjeect
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .map {
+                cachedRequest = it
+                return@map it
+            }
+            .flatMap { model.convert(it.currencyFrom, it.currencyTo, it.amountFrom)
+                .subscribeOn(Schedulers.io())
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                applyViewState(
+                    ViewState(
+                        if (!cachedRequest.invert) cachedRequest.currencyFrom to cachedRequest.amountFrom else cachedRequest.currencyTo to it.result,
+                        if (!cachedRequest.invert) cachedRequest.currencyTo to it.result else cachedRequest.currencyFrom to cachedRequest.amountFrom,
+                        lastViewState?.let { cachedRequest.currencyFrom == lastViewState!!.row1.first } ?: true,
+                        it.isActual
+                    )
+                )
+            }, { it.printStackTrace() })
     }
 
     @SuppressLint("CheckResult")
@@ -151,19 +183,7 @@ class ConverterPresenter(private val model: ConverterModel) {
         amountFrom: String,
         invert: Boolean = false
     ) {
-        model.convert(currencyFrom, currencyTo, amountFrom)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                applyViewState(
-                    ViewState(
-                        if (!invert) currencyFrom to amountFrom else currencyTo to it.result,
-                        if (!invert) currencyTo to it.result else currencyFrom to amountFrom,
-                        lastViewState?.let { currencyFrom == lastViewState!!.row1.first } ?: true,
-                        it.isActual
-                    )
-                )
-            }, { it.printStackTrace() })
+        convertRequestSubjeect.onNext(ConverRequestData(currencyFrom, currencyTo, amountFrom, invert))
     }
 
     private fun applyViewState(viewState: ViewState) {
@@ -172,3 +192,8 @@ class ConverterPresenter(private val model: ConverterModel) {
     }
 
 }
+
+data class ConverRequestData(val currencyFrom: String,
+                             val currencyTo: String,
+                             val amountFrom: String,
+                             val invert: Boolean = false)

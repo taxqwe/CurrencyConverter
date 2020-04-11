@@ -159,7 +159,6 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onViewCreated(this)
         composite.addAll(selectedCurrenciesRepo.getFirstCurrencyObservable()
             .subscribe {
                 presenter.sendAction(UserAction.CurrencyChanged(14, it))
@@ -172,6 +171,7 @@ class ConverterFragment : Fragment(R.layout.fragment_converter), ConverterView {
                     presenter.sendAction(UserAction.BtnClick(USER_ACTION_CODE_BTN_AC))
                     currencyRow_2.currency.text = it
                 })
+        presenter.onViewCreated(this)
     }
 
     override fun applyViewState(viewState: ViewState) {

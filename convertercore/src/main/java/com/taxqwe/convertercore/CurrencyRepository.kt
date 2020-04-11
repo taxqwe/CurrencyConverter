@@ -50,7 +50,8 @@ class CurrencyRepository(
             } else {
                 networkConvert(currencyFrom, currencyTo, amount)
             }
-        }.onErrorResumeNext(cacheConvert(currencyFrom, currencyTo, amount)) // if network request failed, then try to convert using values from cache
+        }
+            .onErrorResumeNext(cacheConvert(currencyFrom, currencyTo, amount)) // if network request failed, then try to convert using values from cache
 
     }
 
